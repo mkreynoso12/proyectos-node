@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.json());
 
 
-
+// FUNCION PARA LEER UN ARCHIVO JSON
 const readData = () => {
     try {
         const data = fs.readFileSync("./db.json");
@@ -17,6 +17,8 @@ const readData = () => {
     }
 };
 
+
+// FUNCION PARA ESCRIBIR EN UN ARCHIVO JSON
 const writeData = (data) => {
     try {
         fs.writeFileSync("./db.json",JSON.stringify(data));
@@ -25,15 +27,20 @@ const writeData = (data) => {
     }
 };
 
+
+// PETICION GET PAGINA RAIZ
 app.get("/",(req, res) =>{
     res.send("Welcome to my first API with NodeJS")
 })
 
+// PETICION GET PARA MOSTRAR INFORMACION DEL ARCHIVO JSON
 app.get("/books",(req, res) =>{
     const data = readData();
     res.json(data.books);
 });
 
+
+// PETICION GET PARA MOSTRAR UN LIBRO POR SU ID
 app.get("/books/:id",(req, res) =>{
     const data = readData();
     const id = parseInt(req.params.id);
@@ -41,6 +48,8 @@ app.get("/books/:id",(req, res) =>{
     res.json(books)
 });
 
+
+// PETICION POST PARA AGREGAR UN REGISTRO AL ARCHIVO JSON
 app.post("/books", (req, res) =>{
      const data = readData();
      const body = req.body;
@@ -53,6 +62,8 @@ app.post("/books", (req, res) =>{
      res.json(newBook);
 });
 
+
+// PETICION PUT PARA ACTUALIAR EL ARCHIVO JSON
 app.put("/books/:id",(req, res) =>{
     const data = readData();
     const body = req.body;
@@ -66,6 +77,8 @@ app.put("/books/:id",(req, res) =>{
     res.json({message: "Book update successfully"});
 });
 
+
+// PETICION DETELE PARA ELIMINAR REGISTRO EN BASE A SU ID
 app.delete("/books/:id", (req, res) =>{
     const data = readData();
     const id = parseInt(req.params.id);
@@ -75,6 +88,7 @@ app.delete("/books/:id", (req, res) =>{
     res.json({message: "Book delete successfully"});    
 });
  
+// MENSAJE PARA MOSTRAR QUE EL SERVIDOR NODE ESTA EN LINEA Y FUNCIONANDO EN EL PUERTO 3000
 app.listen(3000, ()=>{
     console.log('Server listenning on port 3000!!')
 })
